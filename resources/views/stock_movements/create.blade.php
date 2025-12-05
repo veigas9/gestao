@@ -7,12 +7,7 @@
 
     <form action="{{ route('stock-movements.store') }}" method="POST" class="max-w-2xl"
           id="stock-movement-form"
-          data-materials='@json($materials->map(fn($m) => [
-                "id" => $m->id,
-                "name" => $m->name,
-                "current_stock" => (float) $m->current_stock,
-                "unit" => $m->unit,
-          ]))'>
+          data-materials='@json($materialsForJs)'>
         @csrf
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

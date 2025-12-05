@@ -30,7 +30,17 @@ class StockMovementController extends Controller
     {
         $materials = Material::orderBy('name')->get();
 
-        return view('stock_movements.create', compact('materials'));
+        // Estrutura simplificada dos materiais para ser usada em JavaScript
+        $materialsForJs = $materials->map(function (Material $m) {
+            return [
+                'id' => $m->id,
+                'name' => $m->name,
+                'current_stock' => (float) $m->current_stock,
+                'unit' => $m->unit,
+            ];
+        });
+
+        return view('stock_movements.create', compact('materials', 'materialsForJs'));
     }
 
     /**
