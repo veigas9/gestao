@@ -16,6 +16,9 @@
                 <span class="brand-text">Gestão Materiais de Construção</span>
             </a>
             @auth
+                <a href="{{ route('sales.index') }}" class="navbar-link">
+                    Vendas
+                </a>
                 <a href="{{ route('categories.index') }}" class="navbar-link">
                     Categorias
                 </a>

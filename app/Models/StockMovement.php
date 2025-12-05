@@ -11,6 +11,7 @@ class StockMovement extends Model
 
     protected $fillable = [
         'material_id',
+        'sale_id',
         'type',
         'quantity',
         'unit_price',
@@ -27,5 +28,10 @@ class StockMovement extends Model
     public function material()
     {
         return $this->belongsTo(Material::class);
+    }
+
+    public function sale()
+    {
+        return $this->belongsTo(Sale::class);
     }
 }
