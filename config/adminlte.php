@@ -325,7 +325,19 @@ return [
             'route' => 'sales.index',
             'icon' => 'fas fa-shopping-cart',
         ],
+        [
+            'text' => 'Usuários',
+            'route' => 'users.index',
+            'icon' => 'fas fa-users',
+            'can' => 'manage-users',
+        ],
         ['header' => 'Configurações'],
+        [
+            'text' => 'Lojas',
+            'route' => 'stores.index',
+            'icon' => 'fas fa-store',
+            'can' => 'manage-stores',
+        ],
         [
             'text' => 'Empresa / NF-e',
             'route' => 'company-settings.edit',

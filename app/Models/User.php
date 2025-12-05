@@ -17,11 +17,16 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    public const ROLE_SUPER_ADMIN = 'SUPER_ADMIN';
+    public const ROLE_ADMIN = 'ADMIN';
+    public const ROLE_USER = 'USER';
+
     protected $fillable = [
         'name',
         'email',
         'password',
         'company_setting_id',
+        'role',
     ];
 
     /**
@@ -47,5 +52,15 @@ class User extends Authenticatable
     public function companySetting()
     {
         return $this->belongsTo(CompanySetting::class);
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === self::ROLE_SUPER_ADMIN;
+    }
+
+    public function isAdmin(): bool
+    {
+        return in_array($this->role, [self::ROLE_SUPER_ADMIN, self::ROLE_ADMIN], true);
     }
 }

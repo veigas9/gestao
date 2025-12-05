@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\StockMovementController;
+use App\Http\Controllers\StoreController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,5 +48,13 @@ Route::middleware('auth')->group(function () {
     Route::resource('materials', MaterialController::class);
     Route::resource('stock-movements', StockMovementController::class);
     Route::resource('sales', SaleController::class)->only(['index', 'create', 'store', 'show']);
+
+    Route::middleware('role:SUPER_ADMIN')->group(function () {
+        Route::resource('stores', StoreController::class);
+    });
+
+    Route::middleware('role:SUPER_ADMIN,ADMIN')->group(function () {
+        Route::resource('users', UserController::class)->except(['show']);
+    });
 });
 
