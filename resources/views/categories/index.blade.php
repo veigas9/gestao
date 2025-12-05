@@ -2,44 +2,46 @@
 
 @section('title', 'Categorias')
 
-@section('content')
-    <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold">Categorias</h1>
-        <a href="{{ route('categories.create') }}"
-           class="px-4 py-2 rounded bg-blue-600 text-white text-sm hover:bg-blue-700">
-            Nova categoria
+@section('content_header')
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Categorias</h1>
+        <a href="{{ route('categories.create') }}" class="btn btn-primary btn-sm">
+            <i class="fas fa-plus mr-1"></i> Nova categoria
         </a>
     </div>
+@endsection
 
-    <div class="bg-white shadow rounded p-4">
-        <table class="min-w-full text-sm">
+@section('content')
+    <div class="card">
+        <div class="card-body table-responsive p-0">
+            <table class="table table-hover text-nowrap">
             <thead>
-            <tr class="border-b bg-gray-50">
-                <th class="px-3 py-2 text-left">Nome</th>
-                <th class="px-3 py-2 text-left">Descrição</th>
-                <th class="px-3 py-2 text-center">Ações</th>
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th class="text-center">Ações</th>
             </tr>
             </thead>
             <tbody>
             @forelse($categories as $category)
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="px-3 py-2 font-semibold">{{ $category->name }}</td>
-                    <td class="px-3 py-2 text-gray-700">
+                <tr>
+                    <td class="font-weight-bold">{{ $category->name }}</td>
+                    <td>
                         {{ \Illuminate\Support\Str::limit($category->description, 80) }}
                     </td>
-                    <td class="px-3 py-2">
-                        <div class="table-actions">
+                    <td class="text-center">
+                        <div class="d-inline-flex align-items-center">
                             <a href="{{ route('categories.edit', $category) }}"
-                               class="btn-chip btn-chip--warning">
-                                Editar
+                               class="btn btn-warning btn-sm mr-2">
+                                <i class="fas fa-edit mr-1"></i> Editar
                             </a>
                             <form action="{{ route('categories.destroy', $category) }}" method="POST"
-                                  class="inline"
+                                  class="d-inline"
                                   onsubmit="return confirm('Tem certeza que deseja excluir esta categoria?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
-                                        class="btn-chip btn-chip--danger">
+                                        class="btn btn-danger btn-sm">
                                     Excluir
                                 </button>
                             </form>
@@ -48,18 +50,21 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="3" class="px-3 py-4 text-center text-gray-500">
+                    <td colspan="3" class="text-center text-muted p-3">
                         Nenhuma categoria cadastrada.
                     </td>
                 </tr>
             @endforelse
             </tbody>
-        </table>
-
-        <div class="mt-4">
-            {{ $categories->links() }}
+            </table>
         </div>
+        @if($categories->hasPages())
+            <div class="card-footer clearfix">
+                <div class="float-right">
+                    {{ $categories->links() }}
+                </div>
+            </div>
+        @endif
     </div>
 @endsection
-
 

@@ -2,66 +2,67 @@
 
 @section('title', 'Materiais')
 
-@section('content')
-    <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold">Materiais</h1>
-        <a href="{{ route('materials.create') }}"
-           class="px-4 py-2 rounded bg-blue-600 text-white text-sm hover:bg-blue-700">
-            Novo material
+@section('content_header')
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Materiais</h1>
+        <a href="{{ route('materials.create') }}" class="btn btn-primary btn-sm">
+            <i class="fas fa-plus mr-1"></i> Novo material
         </a>
     </div>
+@endsection
 
-    <div class="bg-white shadow rounded p-4">
-        <div class="overflow-x-auto">
-            <table class="min-w-full text-sm">
+@section('content')
+    <div class="card">
+        <div class="card-body table-responsive p-0">
+            <table class="table table-hover text-nowrap">
                 <thead>
-                <tr class="border-b bg-gray-50">
-                    <th class="px-3 py-2 text-left">Categoria</th>
-                    <th class="px-3 py-2 text-left">Nome</th>
-                    <th class="px-3 py-2 text-right">Estoque atual</th>
-                    <th class="px-3 py-2 text-right">Estoque mínimo</th>
-                    <th class="px-3 py-2 text-right">Custo médio</th>
-                    <th class="px-3 py-2 text-center">Ações</th>
+                <tr>
+                    <th class="text-center">Código</th>
+                    <th>Categoria</th>
+                    <th>Nome</th>
+                    <th class="text-right">Estoque atual</th>
+                    <th class="text-center">Unidade</th>
+                    <th class="text-center">Ações</th>
                 </tr>
                 </thead>
                 <tbody>
                 @forelse($materials as $material)
-                    <tr class="border-b hover:bg-gray-50">
-                        <td class="px-3 py-2">
-                            {{ $material->category?->name ?? '-' }}
+                    <tr>
+                        <td class="text-center">
+                            {{ $material->code ?: '-' }}
                         </td>
-                        <td class="px-3 py-2">
-                            <div class="font-semibold">{{ $material->name }}</div>
-                            @if($material->code)
-                                <div class="text-xs text-gray-500">Código: {{ $material->code }}</div>
-                            @endif
+                        <td>{{ $material->category?->name ?? '-' }}</td>
+                        <td>
+                            <div class="font-weight-bold">{{ $material->name }}</div>
                         </td>
-                        <td class="px-3 py-2 text-right">
-                            {{ number_format($material->current_stock, 3, ',', '.') }} {{ $material->unit }}
+                        <td class="text-right">
+                            {{ number_format(
+                                $material->current_stock,
+                                strtoupper($material->unit) === 'UN' ? 0 : 3,
+                                ',',
+                                '.'
+                            ) }} {{ $material->unit }}
                         </td>
-                        <td class="px-3 py-2 text-right">
-                            {{ $material->minimum_stock ? number_format($material->minimum_stock, 3, ',', '.') : '-' }}
+                        <td class="text-center">
+                            {{ $material->unit }}
                         </td>
-                        <td class="px-3 py-2 text-right">
-                            {{ $material->cost_price ? 'R$ '.number_format($material->cost_price, 2, ',', '.') : '-' }}
-                        </td>
-                        <td class="px-3 py-2">
-                            <div class="table-actions">
+                        <td class="text-center">
+                            <div class="d-inline-flex align-items-center">
                                 <a href="{{ route('materials.edit', $material) }}"
-                                   class="btn-chip btn-chip--warning">
-                                    Editar
+                                   class="btn btn-warning btn-sm mr-2">
+                                    <i class="fas fa-edit mr-1"></i> Editar
                                 </a>
                                 <a href="{{ route('stock-movements.create', ['material_id' => $material->id]) }}"
-                                   class="btn-chip btn-chip--primary">
-                                    Movimentar
+                                   class="btn btn-primary btn-sm mr-2">
+                                    <i class="fas fa-exchange-alt mr-1"></i> Movimentar
                                 </a>
                                 <form action="{{ route('materials.destroy', $material) }}" method="POST"
-                                      class="inline"
+                                      class="d-inline"
                                       onsubmit="return confirm('Tem certeza que deseja excluir este material?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                            class="btn-chip btn-chip--danger">
+                                            class="btn btn-danger btn-sm">
                                         Excluir
                                     </button>
                                 </form>
@@ -70,7 +71,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-3 py-4 text-center text-gray-500">
+                        <td colspan="6" class="text-center text-muted p-3">
                             Nenhum material cadastrado.
                         </td>
                     </tr>
@@ -78,11 +79,13 @@
                 </tbody>
             </table>
         </div>
-
-        <div class="mt-4">
-            {{ $materials->links() }}
-        </div>
+        @if($materials->hasPages())
+            <div class="card-footer clearfix">
+                <div class="float-right">
+                    {{ $materials->links() }}
+                </div>
+            </div>
+        @endif
     </div>
 @endsection
-
 

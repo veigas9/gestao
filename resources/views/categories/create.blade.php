@@ -2,34 +2,47 @@
 
 @section('title', 'Nova categoria')
 
+@section('content_header')
+    <h1>Nova categoria</h1>
+@endsection
+
 @section('content')
-    <h1 class="text-2xl font-bold mb-4">Nova categoria</h1>
-
-    <form action="{{ route('categories.store') }}" method="POST" class="max-w-xl">
-        @csrf
-
-        <div class="mb-3">
-            <label class="form-label">Nome *</label>
-            <input type="text" name="name" value="{{ old('name') }}"
-                   class="form-input"
-                   required>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Dados da categoria</h3>
         </div>
+        <form action="{{ route('categories.store') }}" method="POST">
+            @csrf
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="name">Nome *</label>
+                    <input type="text"
+                           id="name"
+                           name="name"
+                           value="{{ old('name') }}"
+                           class="form-control"
+                           required>
+                </div>
 
-        <div class="mb-3">
-            <label class="form-label">Descrição</label>
-            <textarea name="description" rows="3"
-                      class="form-textarea">{{ old('description') }}</textarea>
-        </div>
-
-        <div class="flex justify-end space-x-2 mt-4">
-            <a href="{{ route('categories.index') }}" class="btn-link">
-                Cancelar
-            </a>
-            <button type="submit" class="btn-primary">
-                Salvar
-            </button>
-        </div>
-    </form>
+                <div class="form-group">
+                    <label for="description">Descrição</label>
+                    <textarea id="description"
+                              name="description"
+                              rows="3"
+                              class="form-control"
+                              placeholder="Ex.: Materiais elétricos, Hidráulica, Acabamentos...">{{ old('description') }}</textarea>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-end">
+                <a href="{{ route('categories.index') }}" class="btn btn-default mr-2">
+                    Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    Salvar
+                </button>
+            </div>
+        </form>
+    </div>
 @endsection
 
 

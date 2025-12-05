@@ -2,37 +2,45 @@
 
 @section('title', 'Editar categoria')
 
+@section('content_header')
+    <h1>Editar categoria</h1>
+@endsection
+
 @section('content')
-    <h1 class="text-2xl font-bold mb-4">Editar categoria</h1>
-
-    <form action="{{ route('categories.update', $category) }}" method="POST" class="bg-white shadow rounded p-4 max-w-xl">
-        @csrf
-        @method('PUT')
-
-        <div class="mb-3">
-            <label class="block text-sm font-semibold mb-1">Nome *</label>
-            <input type="text" name="name" value="{{ old('name', $category->name) }}"
-                   class="w-full border rounded px-3 py-2 text-sm"
-                   required>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Dados da categoria</h3>
         </div>
+        <form action="{{ route('categories.update', $category) }}" method="POST">
+            @csrf
+            @method('PUT')
 
-        <div class="mb-3">
-            <label class="block text-sm font-semibold mb-1">Descrição</label>
-            <textarea name="description" rows="3"
-                      class="w-full border rounded px-3 py-2 text-sm">{{ old('description', $category->description) }}</textarea>
-        </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="name">Nome *</label>
+                    <input type="text" name="name" id="name"
+                           value="{{ old('name', $category->name) }}"
+                           class="form-control"
+                           required>
+                </div>
 
-        <div class="flex justify-end space-x-2 mt-4">
-            <a href="{{ route('categories.index') }}"
-               class="px-4 py-2 text-sm rounded border border-gray-300 text-gray-700">
-                Cancelar
-            </a>
-            <button type="submit"
-                    class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700">
-                Salvar
-            </button>
-        </div>
-    </form>
+                <div class="form-group">
+                    <label for="description">Descrição</label>
+                    <textarea name="description" id="description" rows="3"
+                              class="form-control">{{ old('description', $category->description) }}</textarea>
+                </div>
+            </div>
+
+            <div class="card-footer d-flex justify-content-end">
+                <a href="{{ route('categories.index') }}" class="btn btn-default mr-2">
+                    Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    Salvar
+                </button>
+            </div>
+        </form>
+    </div>
 @endsection
 
 

@@ -1,10 +1,6 @@
 import './bootstrap';
 
-/**
- * Lógica simples em JavaScript para o formulário de movimentação de estoque.
- * Mostra o estoque atual do material selecionado e calcula o estoque resultante.
- */
-document.addEventListener('DOMContentLoaded', () => {
+function initGestaoScripts() {
     // Formulário de movimentação de estoque existente
     (function () {
         const form = document.getElementById('stock-movement-form');
@@ -173,4 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Começa com uma linha
         addRow();
     })();
-});
+}
+
+// Garante inicialização mesmo quando o script é carregado depois do DOM pronto (AdminLTE)
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGestaoScripts);
+} else {
+    initGestaoScripts();
+}
