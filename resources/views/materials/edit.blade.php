@@ -40,6 +40,13 @@
                        class="w-full border rounded px-3 py-2 text-sm" required>
             </div>
 
+            <div>
+                <label class="block text-sm font-semibold mb-1">Preço padrão de venda (R$)</label>
+                <input type="number" step="0.01" min="0" name="sale_price"
+                       value="{{ old('sale_price', $material->sale_price) }}"
+                       class="w-full border rounded px-3 py-2 text-sm">
+            </div>
+
         </div>
 
         <p class="mt-4 text-xs text-gray-500">

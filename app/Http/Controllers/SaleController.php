@@ -38,6 +38,7 @@ class SaleController extends Controller
                 'name' => $m->name,
                 'unit' => $m->unit,
                 'current_stock' => (float) $m->current_stock,
+                'sale_price' => $m->sale_price !== null ? (float) $m->sale_price : null,
             ];
         });
 

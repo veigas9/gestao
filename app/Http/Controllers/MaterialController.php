@@ -42,6 +42,7 @@ class MaterialController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'code' => ['nullable', 'string', 'max:100', 'unique:materials,code'],
             'unit' => ['required', 'string', 'max:20'],
+            'sale_price' => ['nullable', 'numeric', 'min:0'],
         ]);
 
         $data['current_stock'] = 0;
@@ -88,6 +89,7 @@ class MaterialController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'code' => ['nullable', 'string', 'max:100', 'unique:materials,code,' . $material->id],
             'unit' => ['required', 'string', 'max:20'],
+            'sale_price' => ['nullable', 'numeric', 'min:0'],
         ]);
 
         $material->update($data);

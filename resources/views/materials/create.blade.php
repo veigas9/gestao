@@ -38,7 +38,12 @@
                 <input type="text" name="unit" value="{{ old('unit', 'UN') }}"
                        class="form-input" required>
             </div>
-
+            <div>
+                <label class="form-label">Preço padrão de venda (R$)</label>
+                <input type="number" step="0.01" min="0" name="sale_price"
+                       value="{{ old('sale_price') }}"
+                       class="form-input" placeholder="Ex: 120,00">
+            </div>
         </div>
 
         <div class="flex justify-end space-x-2 mt-4">

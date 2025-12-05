@@ -146,9 +146,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (material) {
                     stockCell.textContent =
                         `${material.current_stock.toFixed(3).replace('.', ',')} ${material.unit}`;
+
+                    if (material.sale_price !== null && !priceInput.value) {
+                        // Prefill com preço padrão de venda do material
+                        priceInput.value = material.sale_price.toFixed(2);
+                    }
                 } else {
                     stockCell.textContent = '-';
                 }
+                recalcTotals();
             });
 
             qtyInput.addEventListener('input', recalcTotals);
