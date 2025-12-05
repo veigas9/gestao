@@ -19,6 +19,7 @@ class StockMovement extends Model
         'resulting_stock',
         'movement_date',
         'notes',
+        'company_setting_id',
     ];
 
     protected $casts = [
@@ -33,5 +34,10 @@ class StockMovement extends Model
     public function sale()
     {
         return $this->belongsTo(Sale::class);
+    }
+
+    public function companySetting()
+    {
+        return $this->belongsTo(CompanySetting::class);
     }
 }

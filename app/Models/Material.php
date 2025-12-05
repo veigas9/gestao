@@ -16,6 +16,7 @@ class Material extends Model
         'unit',
         'current_stock',
         'sale_price',
+        'company_setting_id',
     ];
 
     public function category()
@@ -26,5 +27,10 @@ class Material extends Model
     public function stockMovements()
     {
         return $this->hasMany(StockMovement::class);
+    }
+
+    public function companySetting()
+    {
+        return $this->belongsTo(CompanySetting::class);
     }
 }

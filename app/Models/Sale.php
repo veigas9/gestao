@@ -18,6 +18,7 @@ class Sale extends Model
         'total',
         'sale_date',
         'notes',
+        'company_setting_id',
     ];
 
     protected $casts = [
@@ -32,6 +33,16 @@ class Sale extends Model
     public function seller()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function nfeInvoice()
+    {
+        return $this->hasOne(NfeInvoice::class);
+    }
+
+    public function companySetting()
+    {
+        return $this->belongsTo(CompanySetting::class);
     }
 }
 

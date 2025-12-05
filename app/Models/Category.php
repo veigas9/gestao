@@ -12,10 +12,16 @@ class Category extends Model
     protected $fillable = [
         'name',
         'description',
+        'company_setting_id',
     ];
 
     public function materials()
     {
         return $this->hasMany(Material::class);
+    }
+
+    public function companySetting()
+    {
+        return $this->belongsTo(CompanySetting::class);
     }
 }

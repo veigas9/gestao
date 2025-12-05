@@ -12,7 +12,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('name')->paginate(15);
+        $companyId = auth()->user()->company_setting_id;
+
+        $categories = Category::where('company_setting_id', $companyId)
+            ->orderBy('name')
+            ->paginate(15);
 
         return view('categories.index', compact('categories'));
     }
@@ -35,6 +39,8 @@ class CategoryController extends Controller
             'description' => ['nullable', 'string'],
         ]);
 
+        $data['company_setting_id'] = $request->user()->company_setting_id;
+
         Category::create($data);
 
         return redirect()
@@ -47,7 +53,11 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        $category = Category::with('materials')->findOrFail($id);
+        $companyId = auth()->user()->company_setting_id;
+
+        $category = Category::with('materials')
+            ->where('company_setting_id', $companyId)
+            ->findOrFail($id);
 
         return view('categories.show', compact('category'));
     }
@@ -57,7 +67,9 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $category = Category::findOrFail($id);
+        $companyId = auth()->user()->company_setting_id;
+
+        $category = Category::where('company_setting_id', $companyId)->findOrFail($id);
 
         return view('categories.edit', compact('category'));
     }
@@ -67,7 +79,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $category = Category::findOrFail($id);
+        $companyId = auth()->user()->company_setting_id;
+
+        $category = Category::where('company_setting_id', $companyId)->findOrFail($id);
 
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255', 'unique:categories,name,' . $category->id],
@@ -86,7 +100,9 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $category = Category::findOrFail($id);
+        $companyId = auth()->user()->company_setting_id;
+
+        $category = Category::where('company_setting_id', $companyId)->findOrFail($id);
 
         // Em um cenário real, você poderia bloquear exclusão se houver materiais vinculados.
         $category->delete();

@@ -325,6 +325,12 @@ return [
             'route' => 'sales.index',
             'icon' => 'fas fa-shopping-cart',
         ],
+        ['header' => 'Configurações'],
+        [
+            'text' => 'Empresa / NF-e',
+            'route' => 'company-settings.edit',
+            'icon' => 'fas fa-building',
+        ],
     ],
 
     /*

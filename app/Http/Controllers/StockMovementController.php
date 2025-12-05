@@ -13,12 +13,17 @@ class StockMovementController extends Controller
      */
     public function index()
     {
+        $companyId = auth()->user()->company_setting_id;
+
         $movements = StockMovement::with('material.category')
+            ->where('company_setting_id', $companyId)
             ->orderByDesc('movement_date')
             ->orderByDesc('id')
             ->paginate(20);
 
-        $materials = Material::orderBy('name')->get();
+        $materials = Material::where('company_setting_id', $companyId)
+            ->orderBy('name')
+            ->get();
 
         return view('stock_movements.index', compact('movements', 'materials'));
     }
@@ -28,7 +33,11 @@ class StockMovementController extends Controller
      */
     public function create()
     {
-        $materials = Material::orderBy('name')->get();
+        $companyId = auth()->user()->company_setting_id;
+
+        $materials = Material::where('company_setting_id', $companyId)
+            ->orderBy('name')
+            ->get();
 
         // Estrutura simplificada dos materiais para ser usada em JavaScript
         $materialsForJs = $materials->map(function (Material $m) {
@@ -57,7 +66,10 @@ class StockMovementController extends Controller
             'notes' => ['nullable', 'string'],
         ]);
 
-        $material = Material::findOrFail($data['material_id']);
+        $companyId = $request->user()->company_setting_id;
+
+        $material = Material::where('company_setting_id', $companyId)
+            ->findOrFail($data['material_id']);
 
         $previousStock = $material->current_stock;
         $quantity = (float) $data['quantity'];
@@ -77,6 +89,7 @@ class StockMovementController extends Controller
 
         $movement = new StockMovement();
         $movement->fill($data);
+        $movement->company_setting_id = $companyId;
         $movement->previous_stock = $previousStock;
         $movement->resulting_stock = $resultingStock;
         if (!empty($data['movement_date'])) {
@@ -96,7 +109,11 @@ class StockMovementController extends Controller
      */
     public function show(string $id)
     {
-        $movement = StockMovement::with('material.category')->findOrFail($id);
+        $companyId = auth()->user()->company_setting_id;
+
+        $movement = StockMovement::with('material.category')
+            ->where('company_setting_id', $companyId)
+            ->findOrFail($id);
 
         return view('stock_movements.show', compact('movement'));
     }
@@ -106,8 +123,12 @@ class StockMovementController extends Controller
      */
     public function edit(string $id)
     {
-        $movement = StockMovement::findOrFail($id);
-        $materials = Material::orderBy('name')->get();
+        $companyId = auth()->user()->company_setting_id;
+
+        $movement = StockMovement::where('company_setting_id', $companyId)->findOrFail($id);
+        $materials = Material::where('company_setting_id', $companyId)
+            ->orderBy('name')
+            ->get();
 
         return view('stock_movements.edit', compact('movement', 'materials'));
     }

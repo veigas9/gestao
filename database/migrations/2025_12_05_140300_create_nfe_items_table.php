@@ -1,0 +1,42 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('nfe_items', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('nfe_invoice_id')
+                ->constrained('nfe_invoices')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
+            $table->foreignId('sale_item_id')
+                ->constrained('sale_items')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
+            $table->unsignedInteger('item_number')->default(1);
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('nfe_items');
+    }
+};
+
+

@@ -13,11 +13,16 @@ class MaterialController extends Controller
      */
     public function index()
     {
+        $companyId = auth()->user()->company_setting_id;
+
         $materials = Material::with('category')
+            ->where('company_setting_id', $companyId)
             ->orderBy('name')
             ->paginate(15);
 
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::where('company_setting_id', $companyId)
+            ->orderBy('name')
+            ->get();
 
         return view('materials.index', compact('materials', 'categories'));
     }
@@ -27,7 +32,11 @@ class MaterialController extends Controller
      */
     public function create()
     {
-        $categories = Category::orderBy('name')->get();
+        $companyId = auth()->user()->company_setting_id;
+
+        $categories = Category::where('company_setting_id', $companyId)
+            ->orderBy('name')
+            ->get();
 
         return view('materials.create', compact('categories'));
     }
@@ -46,6 +55,7 @@ class MaterialController extends Controller
         ]);
 
         $data['current_stock'] = 0;
+        $data['company_setting_id'] = $request->user()->company_setting_id;
 
         Material::create($data);
 
@@ -59,9 +69,11 @@ class MaterialController extends Controller
      */
     public function show(string $id)
     {
+        $companyId = auth()->user()->company_setting_id;
+
         $material = Material::with(['category', 'stockMovements' => function ($q) {
             $q->orderByDesc('movement_date');
-        }])->findOrFail($id);
+        }])->where('company_setting_id', $companyId)->findOrFail($id);
 
         return view('materials.show', compact('material'));
     }
@@ -71,8 +83,12 @@ class MaterialController extends Controller
      */
     public function edit(string $id)
     {
-        $material = Material::findOrFail($id);
-        $categories = Category::orderBy('name')->get();
+        $companyId = auth()->user()->company_setting_id;
+
+        $material = Material::where('company_setting_id', $companyId)->findOrFail($id);
+        $categories = Category::where('company_setting_id', $companyId)
+            ->orderBy('name')
+            ->get();
 
         return view('materials.edit', compact('material', 'categories'));
     }
@@ -82,7 +98,9 @@ class MaterialController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $material = Material::findOrFail($id);
+        $companyId = auth()->user()->company_setting_id;
+
+        $material = Material::where('company_setting_id', $companyId)->findOrFail($id);
 
         $data = $request->validate([
             'category_id' => ['required', 'exists:categories,id'],
@@ -104,7 +122,9 @@ class MaterialController extends Controller
      */
     public function destroy(string $id)
     {
-        $material = Material::findOrFail($id);
+        $companyId = auth()->user()->company_setting_id;
+
+        $material = Material::where('company_setting_id', $companyId)->findOrFail($id);
 
         // Em produção, considere bloquear se houver movimentos de estoque vinculados.
         $material->delete();

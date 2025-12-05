@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\StockMovementController;
@@ -35,6 +36,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('company-settings', [CompanySettingController::class, 'edit'])
+        ->name('company-settings.edit');
+    Route::put('company-settings', [CompanySettingController::class, 'update'])
+        ->name('company-settings.update');
 
     Route::resource('categories', CategoryController::class);
     Route::resource('materials', MaterialController::class);

@@ -17,7 +17,10 @@ class SaleController extends Controller
      */
     public function index()
     {
+        $companyId = auth()->user()->company_setting_id;
+
         $sales = Sale::with('seller')
+            ->where('company_setting_id', $companyId)
             ->orderByDesc('sale_date')
             ->orderByDesc('id')
             ->paginate(20);
@@ -30,7 +33,11 @@ class SaleController extends Controller
      */
     public function create()
     {
-        $materials = Material::orderBy('name')->get();
+        $companyId = auth()->user()->company_setting_id;
+
+        $materials = Material::where('company_setting_id', $companyId)
+            ->orderBy('name')
+            ->get();
 
         $materialsForJs = $materials->map(function (Material $m) {
             return [
@@ -67,10 +74,14 @@ class SaleController extends Controller
             $subtotal = 0;
             $itemsData = [];
 
+            $companyId = $request->user()->company_setting_id;
+
             // Validação de estoque e cálculo dos itens
             foreach ($data['items'] as $item) {
                 /** @var \App\Models\Material $material */
-                $material = Material::lockForUpdate()->findOrFail($item['material_id']);
+                $material = Material::where('company_setting_id', $companyId)
+                    ->lockForUpdate()
+                    ->findOrFail($item['material_id']);
 
                 $quantity = (float) $item['quantity'];
                 $unitPrice = (float) $item['unit_price'];
@@ -101,6 +112,7 @@ class SaleController extends Controller
 
             $sale = Sale::create([
                 'user_id' => Auth::id(),
+                'company_setting_id' => $companyId,
                 'customer_name' => $data['customer_name'] ?? null,
                 'subtotal' => $subtotal,
                 'discount_percent' => $discountPercent,
@@ -139,6 +151,7 @@ class SaleController extends Controller
                     'resulting_stock' => $resultingStock,
                     'movement_date' => now(),
                     'notes' => 'Venda #' . $sale->id,
+                    'company_setting_id' => $companyId,
                 ]);
 
                 $material->update([
@@ -162,7 +175,11 @@ class SaleController extends Controller
      */
     public function show(string $id)
     {
-        $sale = Sale::with(['seller', 'items.material'])->findOrFail($id);
+        $companyId = auth()->user()->company_setting_id;
+
+        $sale = Sale::with(['seller', 'items.material'])
+            ->where('company_setting_id', $companyId)
+            ->findOrFail($id);
 
         return view('sales.show', compact('sale'));
     }
