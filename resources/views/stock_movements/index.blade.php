@@ -52,16 +52,18 @@
                     <td class="px-3 py-2 text-right">
                         {{ number_format($movement->resulting_stock, 3, ',', '.') }}
                     </td>
-                    <td class="px-3 py-2 text-center">
-                        <form action="{{ route('stock-movements.destroy', $movement) }}" method="POST"
-                              onsubmit="return confirm('Excluir esta movimentação irá ajustar o estoque para o valor anterior. Confirmar?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                    class="inline-block text-xs px-2 py-1 rounded bg-red-600 text-white hover:bg-red-700">
-                                Excluir
-                            </button>
-                        </form>
+                    <td class="px-3 py-2">
+                        <div class="table-actions">
+                            <form action="{{ route('stock-movements.destroy', $movement) }}" method="POST"
+                                  onsubmit="return confirm('Excluir esta movimentação irá ajustar o estoque para o valor anterior. Confirmar?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                        class="btn-chip btn-chip--danger">
+                                    Excluir
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             @empty

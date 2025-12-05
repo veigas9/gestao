@@ -45,25 +45,27 @@
                         <td class="px-3 py-2 text-right">
                             {{ $material->cost_price ? 'R$ '.number_format($material->cost_price, 2, ',', '.') : '-' }}
                         </td>
-                        <td class="px-3 py-2 text-center space-x-1">
-                            <a href="{{ route('materials.edit', $material) }}"
-                               class="inline-block text-xs px-2 py-1 rounded bg-yellow-500 text-white hover:bg-yellow-600">
-                                Editar
-                            </a>
-                            <a href="{{ route('stock-movements.create', ['material_id' => $material->id]) }}"
-                               class="inline-block text-xs px-2 py-1 rounded bg-blue-600 text-white hover:bg-blue-700">
-                                Movimentar
-                            </a>
-                            <form action="{{ route('materials.destroy', $material) }}" method="POST"
-                                  class="inline"
-                                  onsubmit="return confirm('Tem certeza que deseja excluir este material?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                        class="inline-block text-xs px-2 py-1 rounded bg-red-600 text-white hover:bg-red-700">
-                                    Excluir
-                                </button>
-                            </form>
+                        <td class="px-3 py-2">
+                            <div class="table-actions">
+                                <a href="{{ route('materials.edit', $material) }}"
+                                   class="btn-chip btn-chip--warning">
+                                    Editar
+                                </a>
+                                <a href="{{ route('stock-movements.create', ['material_id' => $material->id]) }}"
+                                   class="btn-chip btn-chip--primary">
+                                    Movimentar
+                                </a>
+                                <form action="{{ route('materials.destroy', $material) }}" method="POST"
+                                      class="inline"
+                                      onsubmit="return confirm('Tem certeza que deseja excluir este material?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                            class="btn-chip btn-chip--danger">
+                                        Excluir
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @empty

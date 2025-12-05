@@ -17,7 +17,7 @@
             <tr class="border-b bg-gray-50">
                 <th class="px-3 py-2 text-left">Nome</th>
                 <th class="px-3 py-2 text-left">Descrição</th>
-                <th class="px-3 py-2 text-right">Ações</th>
+                <th class="px-3 py-2 text-center">Ações</th>
             </tr>
             </thead>
             <tbody>
@@ -27,21 +27,23 @@
                     <td class="px-3 py-2 text-gray-700">
                         {{ \Illuminate\Support\Str::limit($category->description, 80) }}
                     </td>
-                    <td class="px-3 py-2 text-right">
-                        <a href="{{ route('categories.edit', $category) }}"
-                           class="text-xs px-2 py-1 rounded bg-yellow-500 text-white hover:bg-yellow-600">
-                            Editar
-                        </a>
-                        <form action="{{ route('categories.destroy', $category) }}" method="POST"
-                              class="inline"
-                              onsubmit="return confirm('Tem certeza que deseja excluir esta categoria?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                    class="text-xs px-2 py-1 rounded bg-red-600 text-white hover:bg-red-700">
-                                Excluir
-                            </button>
-                        </form>
+                    <td class="px-3 py-2">
+                        <div class="table-actions">
+                            <a href="{{ route('categories.edit', $category) }}"
+                               class="btn-chip btn-chip--warning">
+                                Editar
+                            </a>
+                            <form action="{{ route('categories.destroy', $category) }}" method="POST"
+                                  class="inline"
+                                  onsubmit="return confirm('Tem certeza que deseja excluir esta categoria?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                        class="btn-chip btn-chip--danger">
+                                    Excluir
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             @empty

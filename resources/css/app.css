@@ -222,6 +222,65 @@ button:hover,
     transform: translateY(-1px);
 }
 
+/* Ações em tabelas (layout moderno tipo “chips” de ação) */
+.table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+}
+
+.btn-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    background-color: #ffffff;
+    color: #374151;
+    box-shadow: 0 0 0 1px rgba(229, 231, 235, 0.9);
+    transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.08s ease;
+}
+
+.btn-chip:hover {
+    transform: translateY(-0.5px);
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.15);
+}
+
+.btn-chip--primary {
+    border-color: rgba(37, 99, 235, 0.15);
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff;
+}
+
+.btn-chip--primary:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+}
+
+.btn-chip--warning {
+    border-color: rgba(234, 179, 8, 0.3);
+    background-color: #fef9c3;
+    color: #854d0e;
+}
+
+.btn-chip--warning:hover {
+    background-color: #fef08a;
+}
+
+.btn-chip--danger {
+    border-color: rgba(248, 113, 113, 0.3);
+    background-color: #fef2f2;
+    color: #991b1b;
+}
+
+.btn-chip--danger:hover {
+    background-color: #fee2e2;
+}
+
 /* Formulários */
 .form-label {
     display: block;

@@ -45,11 +45,13 @@
                         <td class="px-3 py-2 text-right">
                             {{ $material->minimum_stock ? number_format($material->minimum_stock, 3, ',', '.') : '-' }}
                         </td>
-                        <td class="px-3 py-2 text-center">
-                            <a href="{{ route('stock-movements.create', ['material_id' => $material->id]) }}"
-                               class="inline-block px-2 py-1 text-xs rounded bg-blue-600 text-white hover:bg-blue-700">
-                                Nova movimentação
-                            </a>
+                        <td class="px-3 py-2">
+                            <div class="table-actions">
+                                <a href="{{ route('stock-movements.create', ['material_id' => $material->id]) }}"
+                                   class="btn-chip btn-chip--primary">
+                                    Nova movimentação
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 @empty
