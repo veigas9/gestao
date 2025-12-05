@@ -39,19 +39,6 @@
                        class="form-input" required>
             </div>
 
-            <div>
-                <label class="form-label">Estoque mínimo</label>
-                <input type="number" step="0.001" min="0" name="minimum_stock"
-                       value="{{ old('minimum_stock') }}"
-                       class="form-input">
-            </div>
-
-            <div>
-                <label class="form-label">Custo médio (R$)</label>
-                <input type="number" step="0.01" min="0" name="cost_price"
-                       value="{{ old('cost_price') }}"
-                       class="form-input">
-            </div>
         </div>
 
         <div class="flex justify-end space-x-2 mt-4">

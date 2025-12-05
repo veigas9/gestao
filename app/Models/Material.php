@@ -14,9 +14,7 @@ class Material extends Model
         'name',
         'code',
         'unit',
-        'minimum_stock',
         'current_stock',
-        'cost_price',
     ];
 
     public function category()

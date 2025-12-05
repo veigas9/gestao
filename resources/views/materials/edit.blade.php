@@ -40,19 +40,6 @@
                        class="w-full border rounded px-3 py-2 text-sm" required>
             </div>
 
-            <div>
-                <label class="block text-sm font-semibold mb-1">Estoque mínimo</label>
-                <input type="number" step="0.001" min="0" name="minimum_stock"
-                       value="{{ old('minimum_stock', $material->minimum_stock) }}"
-                       class="w-full border rounded px-3 py-2 text-sm">
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold mb-1">Custo médio (R$)</label>
-                <input type="number" step="0.01" min="0" name="cost_price"
-                       value="{{ old('cost_price', $material->cost_price) }}"
-                       class="w-full border rounded px-3 py-2 text-sm">
-            </div>
         </div>
 
         <p class="mt-4 text-xs text-gray-500">
